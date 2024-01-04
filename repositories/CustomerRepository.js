@@ -13,11 +13,24 @@ class CustomerRepository {
 		}
 	}
 
-	async get(id) {
+	async getById(id) {
 		try {
 			const customer = await this.customerModel.findOne({
 				where: {
 					id,
+				},
+			});
+			return customer;
+		} catch (error) {
+			return new Error(`Failed to get customer: ${error.message}`);
+		}
+	}
+
+	async getByAccountId(account_id) {
+		try {
+			const customer = await this.customerModel.findOne({
+				where: {
+					account_id,
 				},
 			});
 			return customer;

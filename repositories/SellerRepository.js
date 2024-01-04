@@ -13,11 +13,24 @@ class SellerRepository {
 		}
 	}
 
-	async get(id) {
+	async getById(id) {
 		try {
 			const seller = await this.sellerModel.findOne({
 				where: {
 					id,
+				},
+			});
+			return seller;
+		} catch (error) {
+			return new Error(`Failed to get seller: ${error.message}`);
+		}
+	}
+
+	async getByAccountId(account_id) {
+		try {
+			const seller = await this.sellerModel.findOne({
+				where: {
+					account_id,
 				},
 			});
 			return seller;
