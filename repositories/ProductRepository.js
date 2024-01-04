@@ -65,7 +65,7 @@ class ProductRepository {
 		}
 	}
 
-	async update(id, newProductData) {
+	async updateProduct(id, newProductData) {
 		const product = await this.getProductById(id);
 		if (product instanceof Error) {
 			return new Error(product.message);
@@ -81,6 +81,22 @@ class ProductRepository {
 			return product;
 		} catch (error) {
 			return new Error(`Failed to update product: ${error.message}`);
+		}
+	}
+
+	async updateStock(product_id, minStock) {
+		const product = await this.getProductById(product_id);
+		if (product instanceof Error) {
+			return new Error(product.message);
+		}
+
+		product.stock -= minStock;
+
+		try {
+			await product.save();
+			return product;
+		} catch (error) {
+			return new Error(`Failed to update stock: ${error.message}`);
 		}
 	}
 
