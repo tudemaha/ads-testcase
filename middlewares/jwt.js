@@ -43,17 +43,17 @@ const verifyToken = (requiredRole) => {
 
 		const accountModel = Account(sequelize, DataTypes);
 		const accountRepo = new AccountRepository(accountModel);
-		const account = accountRepo.get(decodedToken.payload.email);
+		const account = accountRepo.get(decodedToken.email);
 		if (account instanceof Error) {
 			response = defaultInternalError({ jwt_error: account });
 			return res.status(response.status).json(response);
 		}
 
-		if (account === null && decodedToken.payload.role !== requiredRole) {
+		if (account === null && decodedToken.role !== requiredRole) {
 			response = defaultForbidden();
 			return res.status(response.status).json(response);
 		}
-		res.locals.decodedToken = decodedToken.payload;
+		res.locals.decodedToken = decodedToken;
 
 		return next();
 	};
