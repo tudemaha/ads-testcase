@@ -1,0 +1,31 @@
+{
+  "name": "ads-testcase",
+  "version": "1.0.0",
+  "description": "Backend testcase of ADS x MSIB",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tudemaha/ads-testcase.git"
+  },
+  "keywords": [
+    "msib"
+  ],
+  "author": "tudemaha",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tudemaha/ads-testcase/issues"
+  },
+  "homepage": "https://github.com/tudemaha/ads-testcase#readme",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mysql2": "^3.6.5",
+    "sequelize": "^6.35.2"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.6.2"
+  }
+}
