@@ -27,7 +27,7 @@ class Response {
 			status: 400,
 			message: "Request body or parameters not match",
 			data: {},
-			error,
+			error: error ?? {},
 		};
 		return res;
 	}
@@ -38,7 +38,7 @@ class Response {
 			status: 401,
 			message: "Unauthorized access",
 			data: {},
-			error,
+			error: error ?? {},
 		};
 		return res;
 	}
@@ -49,7 +49,7 @@ class Response {
 			status: 403,
 			message: "Forbidden access",
 			data: {},
-			error,
+			error: error ?? {},
 		};
 		return res;
 	}
@@ -60,7 +60,7 @@ class Response {
 			status: 404,
 			message: "Record not found",
 			data: {},
-			error,
+			error: error ?? {},
 		};
 		return res;
 	}
@@ -71,7 +71,7 @@ class Response {
 			status: 409,
 			message: "New data already exists",
 			data: {},
-			error,
+			error: error ?? {},
 		};
 		return res;
 	}
@@ -82,7 +82,7 @@ class Response {
 			status: 409,
 			message: "Request failed, server error",
 			data: {},
-			error,
+			error: error ?? {},
 		};
 		return res;
 	}

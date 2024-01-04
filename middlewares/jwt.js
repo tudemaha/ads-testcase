@@ -16,7 +16,7 @@ const createToken = (payload) => {
 };
 
 const verifyToken = (requiredRole) => {
-	const tokenMiddleware = (req, res, next) => {
+	const tokenMiddleware = async (req, res, next) => {
 		const secret = process.env.SIGNKEY;
 		let response;
 
@@ -37,19 +37,19 @@ const verifyToken = (requiredRole) => {
 		try {
 			decodedToken = jwt.verify(token, secret, { maxAge: "8h" });
 		} catch (error) {
-			response = defaultUnauthorized({ error });
+			response = defaultUnauthorized({ jwt_error: error.message });
 			return res.status(response.status).json(response);
 		}
 
 		const accountModel = Account(sequelize, DataTypes);
 		const accountRepo = new AccountRepository(accountModel);
-		const account = accountRepo.get(decodedToken.email);
+		const account = await accountRepo.get(decodedToken.email);
 		if (account instanceof Error) {
-			response = defaultInternalError({ jwt_error: account });
+			response = defaultInternalError({ jwt_error: account.message });
 			return res.status(response.status).json(response);
 		}
 
-		if (account === null && decodedToken.role !== requiredRole) {
+		if (account === null || decodedToken.role !== requiredRole) {
 			response = defaultForbidden();
 			return res.status(response.status).json(response);
 		}
