@@ -27,7 +27,7 @@ const sellerRegisterHandler = async (req, res) => {
 	const t = await sequelize.transaction();
 	try {
 		const account = await accountRepo.create(newAccount, t);
-		newSeller = { account_id: account.id, ...newSeller };
+		newSeller = { AccountId: account.id, ...newSeller };
 		const seller = await sellerRepo.create(newSeller, t);
 		if (account instanceof Error || seller instanceof Error) {
 			throw new Error(`${account.message} || ${seller.message}`);
@@ -63,7 +63,7 @@ const customerRegisterHandler = async (req, res) => {
 	const t = await sequelize.transaction();
 	try {
 		const account = await accountRepo.create(newAccount, t);
-		newCustomer = { account_id: account.id, ...newCustomer };
+		newCustomer = { AccountId: account.id, ...newCustomer };
 		const customer = await customerRepo.create(newCustomer, t);
 		if (account instanceof Error || customer instanceof Error) {
 			throw new Error(`${account.message} || ${customer.message}`);
@@ -103,7 +103,7 @@ const loginHandler = async (req, res) => {
 	const payload = {
 		id: account.id,
 		email: account.email,
-		role: account.role_id,
+		role: account.RoleId,
 	};
 	const jwt = createToken(payload);
 	response = Response.defaultOK("login success");
