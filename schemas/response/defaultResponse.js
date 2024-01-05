@@ -4,7 +4,7 @@ class Response {
 			success: true,
 			status: 200,
 			message,
-			data,
+			data: data ?? {},
 			error: {},
 		};
 		return res;
@@ -15,7 +15,7 @@ class Response {
 			success: true,
 			status: 201,
 			message,
-			data,
+			data: data ?? {},
 			error: {},
 		};
 		return res;

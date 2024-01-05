@@ -3,7 +3,7 @@ const Joi = require("joi");
 const sellerRegister = Joi.object({
 	email: Joi.string().email().required(),
 	password: Joi.string().required(),
-	password_repeat: Joi.ref("passowrd"),
+	password_repeat: Joi.ref("password"),
 	name: Joi.string().required(),
 	address: Joi.string().required(),
 	phone: Joi.string().required(),
