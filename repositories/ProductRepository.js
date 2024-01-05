@@ -4,8 +4,6 @@ class ProductRepository {
 		this.productModel = productModel;
 	}
 
-	product = Product(sequelize, DataTypes);
-
 	async create(productData) {
 		try {
 			const product = await this.productModel.create(productData);
