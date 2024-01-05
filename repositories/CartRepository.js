@@ -1,3 +1,5 @@
+const { Product, Seller } = require("./../models");
+
 class CartRepository {
 	constructor(cartModel) {
 		this.cartModel = cartModel;
@@ -12,15 +14,22 @@ class CartRepository {
 		}
 	}
 
-	async get(cartId) {
-		const where = {};
-		if (cartId) {
-			where.id = cartId;
-		}
-
+	async get(CustomerId) {
 		try {
 			const cart = await this.cartModel.findAll({
-				where,
+				where: {
+					CustomerId,
+				},
+				include: {
+					model: Product,
+					attributes: ["id", "SellerId"],
+					include: {
+						model: Seller,
+						attributes: ["name"],
+					},
+					order: [["SellerId", "ASC"]],
+				},
+				order: [["updatedAt", "DESC"]],
 			});
 			return cart;
 		} catch (error) {
