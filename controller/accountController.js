@@ -1,8 +1,4 @@
-const { DataTypes } = require("sequelize");
-const { sequelize } = require("./../models/index");
-const Account = require("./../models/account");
-const Seller = require("./../models/seller");
-const Customer = require("./../models/customer");
+const { Account, Seller, Customer, sequelize } = require("./../models");
 const AccountRepository = require("./../repositories/AccountRepository");
 const SellerRepository = require("./../repositories/SellerRepository");
 const CustomerRepository = require("./../repositories/CustomerRepository");
@@ -13,16 +9,14 @@ const { createToken } = require("./../middlewares/jwt");
 const sellerRegisterHandler = async (req, res) => {
 	let response;
 	const reqBody = req.body;
-	const accountModel = Account(sequelize, DataTypes);
-	const sellerModel = Seller(sequelize, DataTypes);
-	const accountRepo = new AccountRepository(accountModel);
-	const sellerRepo = new SellerRepository(sellerModel);
+	const accountRepo = new AccountRepository(Account);
+	const sellerRepo = new SellerRepository(Seller);
 
 	const bcryptPass = await createBcrypt(reqBody.password);
 	const newAccount = {
 		email: reqBody.email,
 		password: bcryptPass,
-		role_id: 1,
+		RoleId: 1,
 	};
 	let newSeller = {
 		name: reqBody.name,
@@ -52,16 +46,14 @@ const sellerRegisterHandler = async (req, res) => {
 const customerRegisterHandler = async (req, res) => {
 	let response;
 	const reqBody = req.body;
-	const accountModel = Account(sequelize, DataTypes);
-	const customerModel = Customer(sequelize, DataTypes);
-	const accountRepo = new AccountRepository(accountModel);
-	const customerRepo = new CustomerRepository(customerModel);
+	const accountRepo = new AccountRepository(Account);
+	const customerRepo = new CustomerRepository(Customer);
 
 	const bcryptPass = await createBcrypt(reqBody.password);
 	const newAccount = {
 		email: reqBody.email,
 		password: bcryptPass,
-		role_id: 2,
+		RoleId: 2,
 	};
 	let newCustomer = {
 		name: reqBody.name,
@@ -90,12 +82,11 @@ const customerRegisterHandler = async (req, res) => {
 const loginHandler = async (req, res) => {
 	let response;
 	const reqBody = req.body;
-	const accountModel = Account(sequelize, DataTypes);
-	const accountRepo = new AccountRepository(accountModel);
+	const accountRepo = new AccountRepository(Account);
 
 	const account = await accountRepo.get(reqBody.email);
 	if (account instanceof Error) {
-		response = Response.defaultInternalError({ login_error: error.message });
+		response = Response.defaultInternalError({ login_error: account.message });
 		return res.status(response.status).json(response);
 	}
 	if (!account) {
