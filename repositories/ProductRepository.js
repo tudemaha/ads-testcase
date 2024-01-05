@@ -44,7 +44,7 @@ class ProductRepository {
 		}
 	}
 
-	async getBySellerId(sellerId) {
+	async getBySellerId(SellerId) {
 		try {
 			const products = await this.productModel.findAll({
 				where: {
@@ -61,6 +61,10 @@ class ProductRepository {
 		try {
 			const product = await this.productModel.findOne({
 				where: { id },
+				include: {
+					model: Seller,
+					attributes: ["name", "address", "id"],
+				},
 			});
 			return product;
 		} catch (error) {

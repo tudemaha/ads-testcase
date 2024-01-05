@@ -67,4 +67,39 @@ productRouter.get("/", async (req, res) => {
 	return res.status(response.status).json(response);
 });
 
+productRouter.get("/:id(\\d+)", async (req, res) => {
+	let response;
+	const { id } = req.params;
+	if (!id) {
+		response = Response.defaultBadRequest({ get_error: "no product ID given" });
+		return res.status(response.status).json(response);
+	}
+	const productRepo = new ProductRepository(Product);
+
+	const productRaw = await productRepo.getById(id);
+	if (productRaw instanceof Error) {
+		response = Response.defaultInternalError({ get_error: productRaw.message });
+		return res.status(response.status).json(response);
+	}
+	if (!productRaw) {
+		response = Response.defaultNotFound();
+		return res.status(response.status).json(response);
+	}
+
+	const product = {
+		id: productRaw.id,
+		name: productRaw.name,
+		price: productRaw.price,
+		description: productRaw.description,
+		stock: productRaw.stock,
+	};
+	const seller = {
+		id: productRaw.Seller.id,
+		name: productRaw.Seller.name,
+		address: productRaw.Seller.address,
+	};
+	response = Response.defaultOK("success get product", { product, seller });
+	return res.status(response.status).json(response);
+});
+
 module.exports = productRouter;
