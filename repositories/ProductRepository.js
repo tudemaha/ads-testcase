@@ -1,4 +1,6 @@
 const { Op } = require("sequelize");
+const { Seller } = require("./../models");
+
 class ProductRepository {
 	constructor(productModel) {
 		this.productModel = productModel;
@@ -20,10 +22,9 @@ class ProductRepository {
 				[Op.like]: `%${nameQuery}%`,
 			};
 		}
-		const include = {};
+		let sellerWhere = {};
 		if (sellerQuery) {
-			include.model = "Seller";
-			include.where.name = {
+			sellerWhere.name = {
 				[Op.like]: `%${sellerQuery}%`,
 			};
 		}
@@ -31,7 +32,11 @@ class ProductRepository {
 		try {
 			const products = await this.productModel.findAll({
 				where,
-				include,
+				include: {
+					model: Seller,
+					where: sellerWhere,
+					attributes: ["name"],
+				},
 			});
 			return products;
 		} catch (error) {
@@ -43,7 +48,7 @@ class ProductRepository {
 		try {
 			const products = await this.productModel.findAll({
 				where: {
-					seller_id: sellerId,
+					SellerId,
 				},
 			});
 			return products;
@@ -82,8 +87,8 @@ class ProductRepository {
 		}
 	}
 
-	async updateStock(product_id, minStock) {
-		const product = await this.getProductById(product_id);
+	async updateStock(ProductId, minStock) {
+		const product = await this.getProductById(ProductId);
 		if (product instanceof Error) {
 			return new Error(product.message);
 		}

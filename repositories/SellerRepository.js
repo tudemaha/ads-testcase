@@ -26,11 +26,11 @@ class SellerRepository {
 		}
 	}
 
-	async getByAccountId(account_id) {
+	async getByAccountId(AccountId) {
 		try {
 			const seller = await this.sellerModel.findOne({
 				where: {
-					account_id,
+					AccountId,
 				},
 			});
 			return seller;
