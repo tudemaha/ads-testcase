@@ -79,7 +79,7 @@ class Response {
 	static defaultInternalError(error) {
 		const res = {
 			success: false,
-			status: 409,
+			status: 500,
 			message: "Request failed, server error",
 			data: {},
 			error: error ?? {},

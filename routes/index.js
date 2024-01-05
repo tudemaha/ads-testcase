@@ -1,6 +1,8 @@
-const accountRoutes = require("./accountRoutes");
+const accountRouter = require("./accountRoutes");
+const productRouter = require("./productRoutes");
 
 module.exports = (app) => {
-	app.use("/auth", accountRoutes);
+	app.use("/auth", accountRouter);
+	app.use("/products", productRouter);
 	return app;
 };
