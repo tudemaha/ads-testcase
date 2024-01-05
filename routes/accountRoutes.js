@@ -12,6 +12,7 @@ const validate = require("./../middlewares/bodyValidator");
 const accountSchema = require("./../schemas/requests/accountSchema");
 const { createBcrypt, checkBcrypt } = require("./../pkg/bcrypt");
 const Response = require("../schemas/response/defaultResponse");
+const { createToken } = require("./../middlewares/jwt");
 
 const accountRouter = Router();
 
@@ -96,6 +97,43 @@ accountRouter.post(
 		}
 
 		response = Response.defaultCreated("account created successfully");
+		return res.status(response.status).json(response);
+	}
+);
+
+accountRouter.post(
+	"/login",
+	validate(accountSchema.login),
+	async (req, res) => {
+		let response;
+		const reqBody = req.body;
+		const accountModel = Account(sequelize, DataTypes);
+		const accountRepo = new AccountRepository(accountModel);
+
+		const account = await accountRepo.get(reqBody.email);
+		if (account instanceof Error) {
+			response = Response.defaultInternalError({ login_error: error.message });
+			return res.status(response.status).json(response);
+		}
+		if (!account) {
+			response = Response.defaultNotFound();
+			return res.status(response.status).json(response);
+		}
+
+		const check = await checkBcrypt(account.password, reqBody.password);
+		if (!check) {
+			response = Response.defaultNotFound();
+			return res.status(response.status).json(response);
+		}
+
+		const payload = {
+			id: account.id,
+			email: account.email,
+			role: account.role_id,
+		};
+		const jwt = createToken(payload);
+		response = Response.defaultOK("login success");
+		res.setHeader("Authorization", jwt);
 		return res.status(response.status).json(response);
 	}
 );
