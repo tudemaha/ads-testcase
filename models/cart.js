@@ -8,16 +8,14 @@ module.exports = (sequelize, DataTypes) => {
 		 * The `models/index` file will call this method automatically.
 		 */
 		static associate(models) {
-			this.belongsTo(models.Customer, { foreignKey: "customer_id" });
-			this.belongsTo(models.Product, { foreignKey: "product_id" });
+			this.belongsTo(models.Customer);
+			this.belongsTo(models.Product);
 		}
 	}
 	Cart.init(
 		{
 			quantity: DataTypes.INTEGER,
 			note: DataTypes.TEXT,
-			customer_id: DataTypes.INTEGER,
-			product_id: DataTypes.INTEGER,
 		},
 		{
 			sequelize,

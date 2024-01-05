@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
 		 */
 		static associate(models) {
 			this.hasMany(models.OrderProduct);
-			this.belongsTo(models.Seller, { foreignKey: "seller_id" });
+			this.belongsTo(models.Seller);
 			this.hasMany(models.Cart);
 		}
 	}
@@ -19,7 +19,6 @@ module.exports = (sequelize, DataTypes) => {
 			description: DataTypes.TEXT,
 			stock: DataTypes.INTEGER,
 			price: DataTypes.FLOAT,
-			seller_id: DataTypes.INTEGER,
 		},
 		{
 			sequelize,
