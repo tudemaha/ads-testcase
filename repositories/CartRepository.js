@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const { Product, Seller } = require("./../models");
 
 class CartRepository {
@@ -54,10 +55,14 @@ class CartRepository {
 		}
 	}
 
-	async delete(id) {
+	async delete(ids, transaction) {
+		const options = transaction ? { transaction } : {};
 		try {
 			const product = await this.cartModel.destroy({
-				where: { id },
+				where: {
+					id: { [Op.or]: ids },
+				},
+				options,
 			});
 			return product;
 		} catch (error) {

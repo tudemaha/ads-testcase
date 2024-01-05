@@ -13,6 +13,20 @@ class OrderRepository {
 		}
 	}
 
+	async getBySellerId(SellerId) {
+		try {
+			const orders = await this.orderModel.findAll({
+				where: {
+					SellerId,
+				},
+				order: [["createdAt", "DESC"]],
+			});
+			return orders;
+		} catch (error) {
+			return new Error(`Failed to get order: ${error.message}`);
+		}
+	}
+
 	async get(id) {
 		const where = { id } ?? {};
 		try {

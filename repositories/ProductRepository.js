@@ -1,5 +1,5 @@
 const { Op } = require("sequelize");
-const { Seller } = require("./../models");
+const { Seller, Cart } = require("./../models");
 
 class ProductRepository {
 	constructor(productModel) {
@@ -67,6 +67,28 @@ class ProductRepository {
 				},
 			});
 			return product;
+		} catch (error) {
+			return new Error(`Failed to get product: ${error.message}`);
+		}
+	}
+
+	async getOrderProducts(carts_id, SellerId, CustomerId) {
+		try {
+			const products = await this.productModel.findAll({
+				include: {
+					model: Cart,
+					where: {
+						id: {
+							[Op.or]: carts_id,
+						},
+						CustomerId,
+					},
+				},
+				where: {
+					SellerId,
+				},
+			});
+			return products;
 		} catch (error) {
 			return new Error(`Failed to get product: ${error.message}`);
 		}

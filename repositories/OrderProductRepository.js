@@ -19,13 +19,11 @@ class OrderRepository {
 		}
 	}
 
-	async getBulk(orderProductIdList) {
+	async getByOrderId(OrderId) {
 		try {
 			const orderProducts = await this.orderModel.findAll({
 				where: {
-					id: {
-						[Op.or]: orderProductIdList,
-					},
+					OrderId,
 				},
 			});
 			return orderProducts;
