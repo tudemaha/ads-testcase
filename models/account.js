@@ -8,14 +8,17 @@ module.exports = (sequelize, DataTypes) => {
 		 * The `models/index` file will call this method automatically.
 		 */
 		static associate(models) {
-			Account.belongsTo(models.Role, { foreignKey: "role_id" });
-			Account.hasOne(models.Customer);
-			Account.hasOne(models.Seller);
+			this.belongsTo(models.Role);
+			this.hasOne(models.Customer);
+			this.hasOne(models.Seller);
 		}
 	}
 	Account.init(
 		{
-			email: DataTypes.STRING,
+			email: {
+				type: DataTypes.STRING,
+				unique: true,
+			},
 			password: DataTypes.STRING,
 		},
 		{

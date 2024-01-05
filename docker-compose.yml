@@ -1,0 +1,33 @@
+version: "3.8"
+services:
+  web:
+    build: .
+    environment:
+      - PORT=8080
+      - PROD_DB_NAME=online_store
+      - PROD_DB_USER=root
+      - PROD_DB_PASS=password
+      - PROD_DB_HOST=mysql
+      - PROD_DB_PORT=3306
+      - SIGNKEY=sosecretkey
+      - NODE_ENV=production
+    depends_on:
+      mysql:
+        condition: service_healthy
+        restart: true
+    ports:
+      - 8080:8080
+
+  mysql:
+    image: mysql:8.2
+    restart: always
+    environment:
+      MYSQL_DATABASE: online_store
+      MYSQL_ROOT_PASSWORD: password
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u root -p'password'"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    ports:
+      - 3306:3306

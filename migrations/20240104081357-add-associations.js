@@ -9,7 +9,7 @@ module.exports = {
 		 * Example:
 		 * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
 		 */
-		await queryInterface.addColumn("Accounts", "role_id", {
+		await queryInterface.addColumn("Accounts", "RoleId", {
 			type: Sequelize.INTEGER,
 			references: {
 				model: "Roles",
@@ -19,7 +19,7 @@ module.exports = {
 			onDelete: "SET NULL",
 		});
 
-		await queryInterface.addColumn("Sellers", "account_id", {
+		await queryInterface.addColumn("Sellers", "AccountId", {
 			type: Sequelize.INTEGER,
 			references: {
 				model: "Accounts",
@@ -29,7 +29,7 @@ module.exports = {
 			onDelete: "SET NULL",
 		});
 
-		await queryInterface.addColumn("Customers", "account_id", {
+		await queryInterface.addColumn("Customers", "AccountId", {
 			type: Sequelize.INTEGER,
 			references: {
 				model: "Accounts",
@@ -39,7 +39,7 @@ module.exports = {
 			onDelete: "SET NULL",
 		});
 
-		await queryInterface.addColumn("Orders", "seller_id", {
+		await queryInterface.addColumn("Orders", "SellerId", {
 			type: Sequelize.INTEGER,
 			references: {
 				model: "Sellers",
@@ -49,7 +49,7 @@ module.exports = {
 			onDelete: "SET NULL",
 		});
 
-		await queryInterface.addColumn("Orders", "customer_id", {
+		await queryInterface.addColumn("Orders", "CustomerId", {
 			type: Sequelize.INTEGER,
 			references: {
 				model: "Customers",
@@ -59,7 +59,7 @@ module.exports = {
 			onDelete: "SET NULL",
 		});
 
-		await queryInterface.addColumn("OrderProducts", "order_id", {
+		await queryInterface.addColumn("OrderProducts", "OrderId", {
 			type: Sequelize.INTEGER,
 			references: {
 				model: "Orders",
@@ -69,7 +69,7 @@ module.exports = {
 			onDelete: "CASCADE",
 		});
 
-		await queryInterface.addColumn("OrderProducts", "product_id", {
+		await queryInterface.addColumn("OrderProducts", "ProductId", {
 			type: Sequelize.INTEGER,
 			references: {
 				model: "Products",
@@ -79,7 +79,7 @@ module.exports = {
 			onDelete: "SET NULL",
 		});
 
-		await queryInterface.addColumn("Products", "seller_id", {
+		await queryInterface.addColumn("Products", "SellerId", {
 			type: Sequelize.INTEGER,
 			references: {
 				model: "Sellers",
@@ -89,7 +89,7 @@ module.exports = {
 			onDelete: "CASCADE",
 		});
 
-		await queryInterface.addColumn("Carts", "customer_id", {
+		await queryInterface.addColumn("Carts", "CustomerId", {
 			type: Sequelize.INTEGER,
 			references: {
 				model: "Customers",
@@ -99,7 +99,7 @@ module.exports = {
 			onDelete: "CASCADE",
 		});
 
-		await queryInterface.addColumn("Carts", "product_id", {
+		await queryInterface.addColumn("Carts", "ProductId", {
 			type: Sequelize.INTEGER,
 			references: {
 				model: "Products",
@@ -117,15 +117,15 @@ module.exports = {
 		 * Example:
 		 * await queryInterface.dropTable('users');
 		 */
-		await queryInterface.removeColumn("Accounts", "role_id");
-		await queryInterface.removeColumn("Sellers", "account_id");
-		await queryInterface.removeColumn("Customers", "account_id");
-		await queryInterface.removeColumn("Orders", "seller_id");
-		await queryInterface.removeColumn("Orders", "customer_id");
-		await queryInterface.removeColumn("OrderProducts", "order_id");
-		await queryInterface.removeColumn("OrderProducts", "product_id");
-		await queryInterface.removeColumn("Products", "seller_id");
-		await queryInterface.removeColumn("Carts", "customer_id");
-		await queryInterface.removeColumn("Carts", "product_id");
+		await queryInterface.removeColumn("Accounts", "RoleId");
+		await queryInterface.removeColumn("Sellers", "AccountId");
+		await queryInterface.removeColumn("Customers", "AccountId");
+		await queryInterface.removeColumn("Orders", "SellerId");
+		await queryInterface.removeColumn("Orders", "CustomerId");
+		await queryInterface.removeColumn("OrderProducts", "OrderId");
+		await queryInterface.removeColumn("OrderProducts", "ProductId");
+		await queryInterface.removeColumn("Products", "SellerId");
+		await queryInterface.removeColumn("Carts", "CustomerId");
+		await queryInterface.removeColumn("Carts", "ProductId");
 	},
 };
