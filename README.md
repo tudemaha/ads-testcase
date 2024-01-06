@@ -5,7 +5,7 @@
 ![Bun](https://img.shields.io/badge/Bun-5d5685?style=for-the-badge&logo=bun&logoColor=white)
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 
-### Backend Test Case 3 of ADS Digital Parner x MSIB
+### Backend Test Case 3 of ADS Digital Partner x MSIB
 
 Test case for simple online store service.
 
